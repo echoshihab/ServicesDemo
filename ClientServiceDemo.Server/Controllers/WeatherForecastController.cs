@@ -1,10 +1,11 @@
+using ClientServiceDemo.Server.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace ClientServiceDemo.Server.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+
+    public class WeatherForecastController : BaseController<WeatherForecast> 
     {
         private static readonly string[] Summaries = new[]
         {
@@ -18,17 +19,35 @@ namespace ClientServiceDemo.Server.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public override IActionResult Get(int id)
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+           var result = new WeatherForecast
+           {
+               Id = id,
+               Date = DateOnly.FromDateTime(DateTime.Now.AddDays(1)),
+               TemperatureC = Random.Shared.Next(-20, 55),
+               Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+           };
+
+           return this.Ok(result);
+        }
+
+        public override IActionResult Query()
+        {
+            var results = Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
                 TemperatureC = Random.Shared.Next(-20, 55),
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+
+            return this.Ok(results);
         }
 
+        public override IActionResult Create(WeatherForecast resource)
+        {
+            return this.Ok(resource);
+        }
     }
 }

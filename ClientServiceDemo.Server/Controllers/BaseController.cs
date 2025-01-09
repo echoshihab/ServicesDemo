@@ -4,22 +4,22 @@ namespace ClientServiceDemo.Server.Controllers
 {
     [ApiController]
     [Route("api/{controller}")]
-    public abstract class BaseController : ControllerBase
+    public abstract class BaseController<TResource> : ControllerBase
     {
         [HttpPost]
-        public IActionResult Create()
+        public virtual IActionResult Create(TResource resource)
         {
             throw new NotImplementedException();
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(string id) 
+        public virtual IActionResult Get(int id) 
         {
             throw new NotImplementedException();
         }
 
         [HttpGet]
-        public IActionResult Query() 
+        public virtual IActionResult Query() 
         {
             throw new NotImplementedException();
         }

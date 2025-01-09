@@ -1,6 +1,6 @@
-namespace ClientServiceDemo.Server
+namespace ClientServiceDemo.Server.Models
 {
-    public class WeatherForecast
+    public class WeatherForecast : IdentifiableData
     {
         public DateOnly Date { get; set; }
 
