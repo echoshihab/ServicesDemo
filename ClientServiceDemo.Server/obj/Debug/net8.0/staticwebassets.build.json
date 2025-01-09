@@ -1,0 +1,24 @@
+{
+  "Version": 1,
+  "Hash": "KZOVh7/C52yuUGsszXN4iSwead91OhGK6uPmM/m1GHM=",
+  "Source": "ClientServiceDemo.Server",
+  "BasePath": "_content/ClientServiceDemo.Server",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "C:\\Users\\echos\\source\\repos\\ClientServiceDemo\\clientservicedemo.client\\clientservicedemo.client.esproj",
+      "Version": 2,
+      "Source": "clientservicedemo.client",
+      "GetPublishAssetsTargets": "GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework"
+    }
+  ],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

@@ -1,0 +1,1 @@
+C:\Users\echos\source\repos\ClientServiceDemo\clientservicedemo.client\obj\Debug\clientservicedemo.client.esproj.CoreCompileInputs.cache
