@@ -34,8 +34,15 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { ref, onMounted, watch } from "vue";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+
+onMounted(() => {
+  fetchData();
+});
 
 type Forecasts = {
   date: string;
@@ -44,40 +51,21 @@ type Forecasts = {
   summary: string;
 }[];
 
-interface Data {
-  loading: boolean;
-  post: null | Forecasts;
+const loading = ref(false);
+const post = ref<null | Forecasts>(null);
+
+watch(() => route, fetchData);
+
+async function fetchData() {
+  post.value = null;
+  loading.value = true;
+
+  let response = await fetch("api/weatherforecast");
+  if (response.ok) {
+    post.value = await response.json();
+    loading.value = false;
+  }
 }
-
-export default defineComponent({
-  data(): Data {
-    return {
-      loading: false,
-      post: null,
-    };
-  },
-  async created() {
-    // fetch the data when the view is created and the data is
-    // already being observed
-    await this.fetchData();
-  },
-  watch: {
-    // call again the method if the route changes
-    $route: "fetchData",
-  },
-  methods: {
-    async fetchData() {
-      this.post = null;
-      this.loading = true;
-
-      var response = await fetch("api/weatherforecast");
-      if (response.ok) {
-        this.post = await response.json();
-        this.loading = false;
-      }
-    },
-  },
-});
 </script>
 
 <style scoped>
