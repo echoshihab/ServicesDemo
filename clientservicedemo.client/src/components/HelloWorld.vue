@@ -35,6 +35,8 @@
 </template>
 
 <script setup lang="ts">
+import type WeatherForecast from "@/models/WeatherForecast";
+import WeatherForecastService from "@/services/ProtoType1/weatherForecastService";
 import { ref, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
 
@@ -44,15 +46,8 @@ onMounted(() => {
   fetchData();
 });
 
-type Forecasts = {
-  date: string;
-  temperatureC: string;
-  temperatureF: string;
-  summary: string;
-}[];
-
 const loading = ref(false);
-const post = ref<null | Forecasts>(null);
+const post = ref<null | WeatherForecast[]>(null);
 
 watch(() => route, fetchData);
 
@@ -60,9 +55,9 @@ async function fetchData() {
   post.value = null;
   loading.value = true;
 
-  let response = await fetch("api/weatherforecast");
-  if (response.ok) {
-    post.value = await response.json();
+  let response = await WeatherForecastService.query();
+  if (response.status == 200) {
+    post.value = response.data;
     loading.value = false;
   }
 }
