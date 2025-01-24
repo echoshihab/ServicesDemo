@@ -13,14 +13,19 @@ abstract class AxiosService {
     return error.response;
   }
 
-  protected genericErrorHandler(error: AxiosError) {
-    if (error.response?.status == 400) {
+  protected isAxiosError(error: unknown): error is AxiosError {
+    return (error as AxiosError).isAxiosError !== undefined;
+  }
+
+  protected genericErrorHandler(error: any) {
+    // Check if the error is an AxiosError
+    if (error.response?.status === 400) {
       console.log("400 error");
-    } else if (error.response?.status == 500) {
+    } else if (error.response?.status === 500) {
       console.log("500 error");
     }
 
-    // always return the error resposne
+    // Safely return the response if it exists
     return error.response;
   }
 }
