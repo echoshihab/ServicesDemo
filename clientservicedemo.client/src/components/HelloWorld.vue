@@ -31,25 +31,22 @@
         </tbody>
       </table>
     </div>
+    <button @click="fetchData">ProtoType1</button>
+    <button @click="fetchData2">ProtoType2</button>
   </div>
 </template>
 
 <script setup lang="ts">
 import type WeatherForecast from "@/models/WeatherForecast";
 import WeatherForecastService from "@/services/ProtoType1/weatherForecastService";
-import { ref, onMounted, watch } from "vue";
+import altWeatherForecastService from "@/services/ProtoType2/altWeatherForecastService";
+import { ref } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
 
-onMounted(() => {
-  fetchData();
-});
-
 const loading = ref(false);
 const post = ref<null | WeatherForecast[]>(null);
-
-watch(() => route, fetchData);
 
 async function fetchData() {
   post.value = null;
@@ -60,6 +57,14 @@ async function fetchData() {
     post.value = response.data;
     loading.value = false;
   }
+}
+
+async function fetchData2() {
+  post.value = null;
+  loading.value = true;
+
+  let response = await altWeatherForecastService.query();
+  console.log(response);
 }
 </script>
 
