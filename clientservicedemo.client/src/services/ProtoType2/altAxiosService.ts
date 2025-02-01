@@ -1,15 +1,13 @@
-import axios, {
-  AxiosError,
-  type AxiosInstance,
-  type AxiosResponse,
-} from "axios";
+import axios, { type AxiosInstance, type AxiosResponse } from "axios";
 
 const axiosSingleton = axios.create({
   baseURL: import.meta.env.BASE_URL, // set to / by default
   withCredentials: true,
 });
 
+// extract data
 const handleResponse = ({ data }: AxiosResponse) => data;
+
 const handleError = (error: any) => Promise.reject(error);
 
 axiosSingleton.interceptors.response.use(handleResponse, handleError);

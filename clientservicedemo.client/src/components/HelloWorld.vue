@@ -63,8 +63,7 @@ async function fetchData2() {
   post.value = null;
   loading.value = true;
 
-  let response = await altWeatherForecastService.query();
-  console.log(response);
+  post.value = await altWeatherForecastService.query();
 }
 </script>
 

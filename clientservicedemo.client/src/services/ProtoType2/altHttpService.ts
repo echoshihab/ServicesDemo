@@ -1,8 +1,8 @@
-import type { AxiosResponse } from "axios";
 import AltAxiosService from "./altAxiosService";
 
 /**
- * Represents an API service to interact with the resource controllers.
+ * In this http service prototype the goal is to directly retrieve the Promise<T> instead
+ * without the wrapper AxiosResponse.
  */
 export abstract class AltHttpService<T> extends AltAxiosService {
   /**
@@ -24,8 +24,8 @@ export abstract class AltHttpService<T> extends AltAxiosService {
    * @param resource The resource path.
    * @param id The id of the resource.
    */
-  delete(id: any): Promise<AxiosResponse<T, any>> {
-    return this.axios.delete<T>(`${this.path}/${id}`);
+  delete(id: any): Promise<T> {
+    return this.axios.delete<void, T>(`${this.path}/${id}`);
   }
 
   /**
@@ -33,9 +33,9 @@ export abstract class AltHttpService<T> extends AltAxiosService {
    * @param path The resource path.
    * @param id The id of the resource.
    */
-  get(id?: any): Promise<AxiosResponse<T, any>> {
+  get(id?: any): Promise<T> {
     const url = [this.path, id].filter((p) => !!p).join("/");
-    return this.axios.get<T>(url);
+    return this.axios.get<void, T>(url);
   }
 
   /**
@@ -43,9 +43,9 @@ export abstract class AltHttpService<T> extends AltAxiosService {
    * @param path The resource path.
    * @param data The resource to patch.
    */
-  patch(id: any, data: any): Promise<AxiosResponse<T, any>> {
+  patch(id: any, data: T): Promise<T> {
     const url = [this.path, id].filter((p) => !!p).join("/");
-    return this.axios.patch<T>(url, data);
+    return this.axios.patch<void, T>(url, data);
   }
 
   /**
@@ -53,8 +53,8 @@ export abstract class AltHttpService<T> extends AltAxiosService {
    * @param path The resource path.
    * @param data The resource to create.
    */
-  post(data: any): Promise<AxiosResponse<T, any>> {
-    return this.axios.post<T>(this.path, data);
+  post(data: T): Promise<T> {
+    return this.axios.post<void, T>(this.path, data);
   }
 
   /**
@@ -62,9 +62,9 @@ export abstract class AltHttpService<T> extends AltAxiosService {
    * @param id The resource id.
    * @param data The resource to update.
    */
-  put(id: any, data: any): Promise<AxiosResponse<T, any>> {
+  put(id: any, data: T): Promise<T> {
     const url = [this.path, id].filter((p) => !!p).join("/");
-    return this.axios.put<T>(url, data);
+    return this.axios.put<void, T>(url, data);
   }
 
   /**
@@ -72,7 +72,7 @@ export abstract class AltHttpService<T> extends AltAxiosService {
    * @param path The resource path.
    * @param query The resource query.
    */
-  query(query?: any): Promise<AxiosResponse<T[], any>> {
-    return this.axios.get<T[]>(this.path, { params: query });
+  query(query?: any): Promise<T[]> {
+    return this.axios.get<void, T[]>(this.path, { params: query });
   }
 }
