@@ -1,3 +1,4 @@
+import { useSnackbarStore } from "@/toasts/snackbarStore";
 import axios, { type AxiosInstance, type AxiosResponse } from "axios";
 
 const axiosSingleton = axios.create({
@@ -6,7 +7,11 @@ const axiosSingleton = axios.create({
 });
 
 // extract data
-const handleResponse = ({ data }: AxiosResponse) => data;
+const handleResponse = ({ data }: AxiosResponse) => {
+  const snackbarStore = useSnackbarStore();
+  snackbarStore.showSnackbar("Successfully fetched data");
+  return data;
+};
 
 const handleError = (error: any) => Promise.reject(error);
 
