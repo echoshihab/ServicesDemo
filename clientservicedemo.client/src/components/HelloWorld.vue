@@ -31,8 +31,8 @@
         </tbody>
       </table>
     </div>
-    <button @click="fetchData">ProtoType1</button>
-    <button @click="fetchData2">ProtoType2</button>
+    <v-btn @click="fetchData">ProtoType1</v-btn>
+    <v-btn @click="fetchData2">ProtoType2</v-btn>
   </div>
 </template>
 

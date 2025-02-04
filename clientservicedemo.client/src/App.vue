@@ -1,11 +1,15 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
+  <v-snackbar v-model="show" :timeout="timeout">
+    {{ message }}
+  </v-snackbar>
   <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+    <img
+      alt="Vue logo"
+      class="logo"
+      src="./assets/logo.svg"
+      width="125"
+      height="125"
+    />
 
     <div class="wrapper">
       <HelloWorld msg="You did it!" />
@@ -45,3 +49,13 @@ header {
   }
 }
 </style>
+
+<script setup lang="ts">
+import { storeToRefs } from "pinia";
+import { useSnackbarStore } from "@/toasts/snackbarStore";
+import HelloWorld from "./components/HelloWorld.vue";
+import TheWelcome from "./components/TheWelcome.vue";
+
+const snackbarStore = useSnackbarStore();
+const { show, message, timeout } = storeToRefs(snackbarStore);
+</script>
