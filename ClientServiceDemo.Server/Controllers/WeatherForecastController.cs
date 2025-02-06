@@ -21,19 +21,12 @@ namespace ClientServiceDemo.Server.Controllers
 
         public override IActionResult Get(int id)
         {
-           var result = new WeatherForecast
-           {
-               Id = id,
-               Date = DateOnly.FromDateTime(DateTime.Now.AddDays(1)),
-               TemperatureC = Random.Shared.Next(-20, 55),
-               Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-           };
-
-           return this.Ok(result);
+            // to test error response
+            return this.BadRequest();
         }
 
         public override IActionResult Query()
-        {
+        {          
             var results = Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
@@ -42,7 +35,7 @@ namespace ClientServiceDemo.Server.Controllers
             })
             .ToArray();
 
-            return this.Ok(results);
+           return this.Ok(results);
         }
 
         public override IActionResult Create(WeatherForecast resource)
