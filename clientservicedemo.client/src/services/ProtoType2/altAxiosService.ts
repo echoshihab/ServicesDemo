@@ -1,19 +1,33 @@
 import { useSnackbarStore } from "@/toasts/snackbarStore";
-import axios, { type AxiosInstance, type AxiosResponse } from "axios";
+import axios, {
+  AxiosError,
+  type AxiosInstance,
+  type AxiosResponse,
+} from "axios";
 
 const axiosSingleton = axios.create({
   baseURL: import.meta.env.BASE_URL, // set to / by default
   withCredentials: true,
 });
 
-// extract data
-const handleResponse = ({ data }: AxiosResponse) => {
-  const snackbarStore = useSnackbarStore();
-  snackbarStore.showSnackbar("Successfully fetched data");
-  return data;
+const isAxiosError = (error: unknown): error is AxiosError => {
+  return typeof error === "object" && error !== null && "isAxiosError" in error;
 };
 
-const handleError = (error: any) => Promise.reject(error);
+// extract data
+const handleResponse = ({ data }: AxiosResponse) => data;
+
+const handleError = (error: any) => {
+  const snackbarStore = useSnackbarStore();
+  console.log(error.response);
+  snackbarStore.showSnackbar(
+    isAxiosError(error)
+      ? error.response
+        ? `${error.response.status}: ${error.response.statusText ?? "Error!"}`
+        : `Network Error: ${error.message}`
+      : "Unexpected Error"
+  );
+};
 
 axiosSingleton.interceptors.response.use(handleResponse, handleError);
 
