@@ -22,7 +22,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="forecast in post" :key="forecast.date">
+          <tr v-for="forecast in post" :key="String(forecast.date)">
             <td>{{ forecast.date }}</td>
             <td>{{ forecast.temperatureC }}</td>
             <td>{{ forecast.temperatureF }}</td>
@@ -32,12 +32,13 @@
       </table>
     </div>
     <v-btn @click="fetchData">ProtoType1</v-btn>
-    <v-btn @click="fetchData2">ProtoType2</v-btn>
+    <v-btn @click="fetchData2">ProtoType2-QueryWeather</v-btn>
+    <v-btn @click="fetchError">Prototype2-GetError</v-btn>
   </div>
 </template>
 
 <script setup lang="ts">
-import type WeatherForecast from "@/models/WeatherForecast";
+import WeatherForecast from "@/models/WeatherForecast";
 import WeatherForecastService from "@/services/ProtoType1/weatherForecastService";
 import altWeatherForecastService from "@/services/ProtoType2/altWeatherForecastService";
 import { ref } from "vue";
@@ -47,6 +48,7 @@ const route = useRoute();
 
 const loading = ref(false);
 const post = ref<null | WeatherForecast[]>(null);
+const singlePost = ref<null | WeatherForecast>(null);
 
 async function fetchData() {
   post.value = null;
@@ -64,6 +66,15 @@ async function fetchData2() {
   loading.value = true;
 
   post.value = await altWeatherForecastService.query();
+  loading.value = false;
+}
+
+async function fetchError() {
+  singlePost.value = null;
+  loading.value = true;
+
+  singlePost.value = await altWeatherForecastService.get(3);
+  loading.value = false;
 }
 </script>
 
