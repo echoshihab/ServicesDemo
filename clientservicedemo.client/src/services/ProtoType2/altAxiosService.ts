@@ -19,7 +19,6 @@ const handleResponse = ({ data }: AxiosResponse) => data;
 
 const handleError = (error: any) => {
   const snackbarStore = useSnackbarStore();
-  console.log(error.response);
   snackbarStore.showSnackbar(
     isAxiosError(error)
       ? error.response
